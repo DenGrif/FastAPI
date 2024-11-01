@@ -14,7 +14,7 @@ async def news() -> dict:
 async def id_paginator(username: str = "Den", age: int = 44) -> dict:
     return {"User": username, "Age": age}
 
-@app.get("/user/{first_name}/{last_name}")
-async def news(first_name: str, last_name: str) -> dict:
-    return {"message": f"Здорова товарищ, {first_name}/{last_name}"}
+# @app.get("/user/{first_name}/{last_name}")
+# async def news(first_name: str, last_name: str) -> dict:
+#     return {"message": f"Здорова товарищ, {first_name}/{last_name}"}
 
