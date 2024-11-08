@@ -1,8 +1,11 @@
-from fastapi import FastAPI, status, Body, HTTPException
+from fastapi import FastAPI, status, Body, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from typing import List
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
 message_db = []
 
@@ -11,13 +14,13 @@ class Message(BaseModel):
     text: str
 
 @app.get("/")
-def get_all_message() -> List[Message]:
-    return message_db
+def get_all_message(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse("message.html", {"request": request, "messages": message_db})
 
 @app.get(path="/message/{message_id}")
-def get_message(message_id: int) -> Message:
+def get_message(request: Request, message_id: int) -> HTMLResponse:
     try:
-        return message_db[message_id]
+        return templates.TemplateResponse("message.html", {"request": request, "message": message_db[message_id]})
     except IndexError:
         raise HTTPException(status_code=404, detail="Message not found")
 
